@@ -29,7 +29,7 @@ oc new-project local-storage
 
 oc create serviceaccount local-storage-admin
 
-oc adm policy add-scc-to-user privileged -z local-storage-admin
+oc adm policy add-scc-to-user privileged -z local-storage-admin -n local-storage
 
 oc create -f configmap.yaml
 ```
