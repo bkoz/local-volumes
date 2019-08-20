@@ -96,6 +96,7 @@ web-1     1/1       Running   0          4h        10.129.1.52   ip-172-33-40-11
 web-2     1/1       Running   0          4h        10.128.3.5    ip-172-33-62-90.ec2.internal    <none>
 ```
 
+The PVCs status should be **Bound**. 
 ```
 oc get pvc
 
