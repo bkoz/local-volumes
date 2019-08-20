@@ -78,8 +78,6 @@ oc create -f storage-class-ssd.yaml
 
 #### Create the test stateful set.
 
-This can be performed as a regular user but the default service account for this project requires the ```anyuid``` SCC.
-
 ```
 oc new-project storage-test
 
