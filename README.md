@@ -1,6 +1,6 @@
 # Notes from testing local volumes on OpenShift 3.11
 
-#### In general, follow this documentation
+#### In general, follow this documentation.
 https://docs.openshift.com/container-platform/3.11/install_config/configuring_local.html
 
 Create file systems on storage devices.
@@ -49,18 +49,13 @@ There should be a ```local-volume-provisioner``` running on each node.
 Example output.
 
 ```
-oc get pods -n local-storage
-
-NAME                             READY     STATUS    RESTARTS   AGE
-local-volume-provisioner-drh5j   1/1       Running   0          4h
-local-volume-provisioner-hzjr5   1/1       Running   0          4h
-local-volume-provisioner-zx2gh   1/1       Running   0          4h
+oc get pods -n local-storage -o wide
+NAME                             READY     STATUS    RESTARTS   AGE       IP            NODE                            NOMINATED NODE
+local-volume-provisioner-drh5j   1/1       Running   0          4h        10.130.1.61   ip-172-33-166-91.ec2.internal   <none>
+local-volume-provisioner-hzjr5   1/1       Running   0          4h        10.129.1.51   ip-172-33-40-118.ec2.internal   <none>
+local-volume-provisioner-zx2gh   1/1       Running   0          4h        10.128.3.4    ip-172-33-62-90.ec2.internal    <none>
 ```
 
-#### Create the storage class.
-```
-oc create -f storage-class-ssd.yaml
-```
 #### Check the PVs
 
 Example output.
@@ -68,13 +63,17 @@ Example output.
 ```
 oc get pv | grep local
 
-$ oc get pv | grep local
 local-pv-4bb2f206                          9951Mi     RWO            Delete           Available                                                                   local-ssd                           4h
 local-pv-5abd0294                          9951Mi     RWO            Delete           Bound       cake/www-web-2                                                  local-ssd                           4h
 local-pv-9dced8fb                          9951Mi     RWO            Delete           Available                                                                   local-ssd                           4h
 local-pv-aa8dbe40                          9951Mi     RWO            Delete           Bound       cake/www-web-0                                                  local-ssd                           4h
 local-pv-e31d6b9                           9951Mi     RWO            Delete           Available                                                                   local-ssd                           4h
 local-pv-e57f984f                          9951Mi     RWO            Delete           Bound       cake/www-web-1                                                  local-ssd                           4h
+```
+
+#### Create the storage class.
+```
+oc create -f storage-class-ssd.yaml
 ```
 
 #### Create the test stateful set.
@@ -91,13 +90,14 @@ oc create -f nginx-statefullset.yaml
 
 Example output.
 ```
-oc get pods 
+oc get pods -o wide
 
-NAME      READY     STATUS    RESTARTS   AGE
-web-0     1/1       Running   0          4h
-web-1     1/1       Running   0          4h
-web-2     1/1       Running   0          4h
+NAME      READY     STATUS    RESTARTS   AGE       IP            NODE                            NOMINATED NODE
+web-0     1/1       Running   0          4h        10.130.1.62   ip-172-33-166-91.ec2.internal   <none>
+web-1     1/1       Running   0          4h        10.129.1.52   ip-172-33-40-118.ec2.internal   <none>
+web-2     1/1       Running   0          4h        10.128.3.5    ip-172-33-62-90.ec2.internal    <none>
 ```
+
 ```
 oc get pvc
 
