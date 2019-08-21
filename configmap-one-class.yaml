@@ -7,6 +7,3 @@ data:
         local-ssd: 
             hostDir:  /mnt/local-storage/ssd 
             mountDir: /mnt/local-storage/ssd 
-        local-hdd: 
-            hostDir:  /mnt/local-storage/hdd 
-            mountDir: /mnt/local-storage/hdd 
